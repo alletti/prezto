@@ -11,3 +11,57 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+alias ls='ls -FG'
+alias ll='ls -alFG'
+alias vim='mvim -v'
+alias cvlc='/Applications/VLC.app/Contents/MacOS/VLC -I rc'
+alias lockscreen='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+alias psgrep='ps cax | grep'
+
+# Trash commands
+alias emptytrash='osascript -e "tell application \"Finder\" to empty the trash"'
+
+# Set Emacs bindings for command line
+bindkey -e
+
+autoload -U colors compinit complist autocomplete select-word-style
+colors
+compinit
+select-word-style bash
+
+# History configuration
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.history
+
+# Changes binding of up and down keys
+# bindkey '\e[A' history-beginning-search-backward
+# bindkey '\e[B' history-beginning-search-forward
+
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_NO_STORE
+setopt HIST_NO_FUNCTIONS
+setopt HIST_BEEP
+setopt EXTENDEDGLOB
+
+# Open or attach to a tmux console session
+function console {
+  tmux has-session -t console
+  if [ $? != 0 ]
+  then
+    tmux new-session -s console -n console -d
+  fi
+  tmux attach -t console
+}
+
+# Convenience livestreamer functions
+twitch() { livestreamer http://twitch.tv/$@ high;  }
+
+# Looks for a version.rb file
+function parse_ruby_version_and_add_brackets {
+  find ./lib -maxdepth 3 -name '*version.rb' -exec cat {} \; 2> /dev/null | grep "VERSION *=" | sed -e 's/[^"]*"\([^"]*\)"$/\[\1\]/'
+}
