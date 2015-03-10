@@ -65,3 +65,8 @@ twitch() { livestreamer http://twitch.tv/$@ high;  }
 function parse_ruby_version_and_add_brackets {
   find ./lib -maxdepth 3 -name '*version.rb' -exec cat {} \; 2> /dev/null | grep "VERSION *=" | sed -e 's/[^"]*"\([^"]*\)"$/\[\1\]/'
 }
+
+# Loads rvm as function
+PATH=$HOME/Shell/bin:/usr/local/bin:$HOME/Dropbox/Library/usr/local/bin:$PATH
+[[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
