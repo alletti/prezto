@@ -67,3 +67,11 @@ function parse_ruby_version_and_add_brackets {
 }
 
 eval "$(rbenv init -)"
+
+# Use dev Ansible if present
+if [[ -s "${ZDOTDIR:-$HOME}/Projects/ansible/hacking/env-setup" ]]; then
+  source "${ZDOTDIR:-$HOME}/Projects/ansible/hacking/env-setup" -q
+  unset current_dir
+  unset ANSIBLE_HOME
+fi
+
