@@ -58,15 +58,16 @@ function console {
   tmux attach -t console
 }
 
-# Convenience livestreamer functions
-twitch() { livestreamer http://twitch.tv/$@ high;  }
-
 # Looks for a version.rb file
 function parse_ruby_version_and_add_brackets {
   find ./lib -maxdepth 3 -name '*version.rb' -exec cat {} \; 2> /dev/null | grep "VERSION *=" | sed -e 's/[^"]*"\([^"]*\)"$/\[\1\]/'
 }
 
-eval "$(rbenv init -)"
+which rbenv 2&>1 > /dev/null
+if [ $? -eq 0 ]
+then
+	eval "$(rbenv init -)"
+fi
 
 # Use dev Ansible if present
 if [[ -s "${ZDOTDIR:-$HOME}/Projects/ansible/hacking/env-setup" ]]; then
@@ -74,4 +75,3 @@ if [[ -s "${ZDOTDIR:-$HOME}/Projects/ansible/hacking/env-setup" ]]; then
   unset current_dir
   unset ANSIBLE_HOME
 fi
-
