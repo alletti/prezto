@@ -63,8 +63,7 @@ function parse_ruby_version_and_add_brackets {
   find ./lib -maxdepth 3 -name '*version.rb' -exec cat {} \; 2> /dev/null | grep "VERSION *=" | sed -e 's/[^"]*"\([^"]*\)"$/\[\1\]/'
 }
 
-which rbenv 2&>1 > /dev/null
-if [ $? -eq 0 ]
+if [[ -s "/usr/local/bin/rbenv" ]]
 then
 	eval "$(rbenv init -)"
 fi
