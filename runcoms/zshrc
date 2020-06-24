@@ -17,6 +17,7 @@ alias vim='mvim -v'
 alias cvlc='/Applications/VLC.app/Contents/MacOS/VLC -I rc'
 alias lockscreen='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 alias psgrep='ps cax | grep'
+alias sim="xcrun simctl spawn booted"
 
 # Trash commands
 alias emptytrash='osascript -e "tell application \"Finder\" to empty the trash"'
@@ -66,6 +67,7 @@ function parse_ruby_version_and_add_brackets {
 if [[ -s "/usr/local/bin/rbenv" ]]
 then
 	eval "$(rbenv init -)"
+  export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 fi
 
 # Use dev Ansible if present
@@ -74,3 +76,4 @@ if [[ -s "${ZDOTDIR:-$HOME}/Projects/ansible/hacking/env-setup" ]]; then
   unset current_dir
   unset ANSIBLE_HOME
 fi
+PATH=~/.xclink/bin:$PATH
