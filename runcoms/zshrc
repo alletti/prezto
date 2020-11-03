@@ -17,10 +17,6 @@ alias vim='mvim -v'
 alias cvlc='/Applications/VLC.app/Contents/MacOS/VLC -I rc'
 alias lockscreen='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 alias psgrep='ps cax | grep'
-alias sim="xcrun simctl spawn booted"
-
-# Trash commands
-alias emptytrash='osascript -e "tell application \"Finder\" to empty the trash"'
 
 # Set Emacs bindings for command line
 bindkey -e
@@ -59,6 +55,13 @@ function console {
   tmux attach -t console
 }
 
+# Trash commands
+alias emptytrash='osascript -e "tell application \"Finder\" to empty the trash"'
+
+# Xcode Simulator
+alias sim="xcrun simctl spawn booted"
+hash -d simroot="$(xcrun simctl runtime info path)"/Contents/Resources/RuntimeRoot
+
 # Looks for a version.rb file
 function parse_ruby_version_and_add_brackets {
   find ./lib -maxdepth 3 -name '*version.rb' -exec cat {} \; 2> /dev/null | grep "VERSION *=" | sed -e 's/[^"]*"\([^"]*\)"$/\[\1\]/'
@@ -77,3 +80,12 @@ if [[ -s "${ZDOTDIR:-$HOME}/Projects/ansible/hacking/env-setup" ]]; then
   unset ANSIBLE_HOME
 fi
 PATH=~/.xclink/bin:$PATH
+
+# TDG Rez configuration
+export PATH="/usr/local/apps/rez/_core/2.18.0-a0/osx/bin/rez:/Volumes/TDG-CCT/pipeline/packages/rez/_core/2.18.0/osx/bin/rez:$PATH"
+export REZ_CONFIG_FILE="/Volumes/TDG-CCT/pipeline/config/rez/rezconfig.py"
+
+# Open newest build log for given project
+newestlog () {
+  open -a /System/Applications/Utilities/Console.app ~rc/Software/CondorsFlight/Updates/NewestCondorsFlight/BuildRecords/$1/Log
+}
