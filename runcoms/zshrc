@@ -89,3 +89,13 @@ export REZ_CONFIG_FILE="/Volumes/TDG-CCT/pipeline/config/rez/rezconfig.py"
 newestlog () {
   open -a /System/Applications/Utilities/Console.app ~rc/Software/CondorsFlight/Updates/NewestCondorsFlight/BuildRecords/$1/Log
 }
+
+download_newestlog() {
+  SOURCE=~rc/Software/CondorsFlight/Updates/NewestCondorsFlight/BuildRecords/$1/Log
+  FIRST_LINE=$(cat ${SOURCE} | head -n 2 | tail -n 1)
+  PROJ_BUILD=$(echo $FIRST_LINE | sed "s/.*\($1[^ ]*\).*/\1/")
+  BUILD_PHASE=$(echo $FIRST_LINE | cut -f 2 -d ' ')
+  DEST=~/Downloads/${PROJ_BUILD}-${BUILD_PHASE}.log
+  echo "Downloading ${LOG} -> ${DEST}"
+  cp ${LOG} ${DEST}
+}
